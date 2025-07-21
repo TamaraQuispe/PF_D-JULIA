@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panadería D'Julia</title>
+    <link rel="stylesheet" href="estilos.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("active");
+        }
+
+
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('show');
+        }
+
+
+
+
+    </script>
+
+    <header class="navbar">
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div><a href="#inicio" class="logo">D'Julia</a></div>
+        <div class="items">
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html#inicio">Inicio</a>
+                <a href="index.html#nosotros">Sobre Nosotros</a>
+                <a href="index.html#contacto">Contacto</a>
+                <a href="index.html#servicios">Servicios</a>
+                <a href="index.html#testimonios">Testimonios</a>
+                <a href="index.html#locales">Locales</a>
+                <a href="index.html#carta">Carta</a>
+                <a href="index.html#galeria">Galería</a>
+                <a href="index.html#locales">Locales</a>
+                <a href="index.html#menu">Menú</a>
+            </nav>
+            <div class="iconos">
+
+                <a href="ubicacion.html"><span class="material-symbols-outlined">near_me</span></a><!-- Ubicación -->
+                <a href="carrito.html"><span class="material-symbols-outlined">shopping_cart</span></a><!-- Carrito -->
+                <a href="telefono.html"><span class="material-symbols-outlined">phone</span></a><!-- Telefono -->
+                <a href="account.html"><span class="material-symbols-outlined">
+                        account_circle
+                    </span></a> <!-- Cuenta -->
+            </div>
+        </div>
+
+    </header>
+    <section id="productos" class="seccion productos-section">
+    <div>
+        <div>
+        <h2>PANES </h2>
+        <hr>
+        </div>
+    </div>
+  <div class="productos-grid">
+    
+ <div id="detalleProducto">
+  <div class="detalle-contenido">
+    <img id="detalleImagen" src="" alt="">
+    <div>
+      <h3 id="detalleNombre"></h3>
+      <p id="detalleDescripcion"></p>
+      <p id="detallePrecio"></p>
+
+      <div class="detalle-acciones">
+        <div class="detalle-cantidad">
+          <button onclick="cambiarCantidad(-1)" class="boton-cantidad">-</button>
+          <input type="text" id="cantidadInput" value="1" readonly>
+          <button onclick="cambiarCantidad(1)" class="boton-cantidad">+</button>
+        </div>
+
+        <button class="boton-carrito" onclick="agregarCarrito()">
+          Añadir al carrito
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    <div class="product-card" onclick="mostrarDetalle(this, 'Hogaza de granos Andinos')">
+      <img src="imagenes/Panes.webp" alt="Panes">
+      <div class="product-info">
+        <h3>Hogaza de granos Andinos</h3>
+        <p>S/16.00</p>
+      </div>
+    </div>
+
+    
+    <div class="product-card" onclick="mostrarDetalle(this, 'Hogaza de tanta zara')">
+      <img src="imagenes/Pan Zata.webp" alt="Panes zara">
+      <div class="product-info">
+        <h3>Hogaza de tanta zara</h3>
+        <p>S/18.00</p>
+      </div>
+    </div>
+
+    
+    <div class="product-card" onclick="mostrarDetalle(this, 'Mini artesanal tanta zara')">
+      <img src="imagenes/MiniZara.webp" alt="Panes mini zara">
+      <div class="product-info">
+        <h3>Mini artesanal tanta zara</h3>
+        <p>S/1.80</p>
+      </div>
+    </div>
+   
+   
+    
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const productos = {
+    "Hogaza de granos Andinos": {
+      descripcion: "Pan artesanal hecho a base de masa madre con quinua tricolor.Peso: 500 gr. aprox.",
+      precio: "S/16.00",
+      imagen: "imagenes/Panes.webp"
+    },
+    "Hogaza de tanta zara": {
+      descripcion: "Pan artesanal hecho a base de masa madre con pasas, avena y miel.Peso: 500 gr. aprox.",
+      precio: "S/18.00",
+      imagen: "imagenes/Pan Zata.webp"
+    },
+    "Mini artesanal tanta zara": {
+      descripcion: "Pan artesanal hecho a base de masa madre con pasas, avena y miel. 1 und.",
+      precio: "S/1.80",
+      imagen: "imagenes/MiniZara.webp"
+    },
+  };
+
+  const detalle = document.getElementById('detalleProducto');
+  const detalleNombre = document.getElementById('detalleNombre');
+  const detalleDescripcion = document.getElementById('detalleDescripcion');
+  const detallePrecio = document.getElementById('detallePrecio');
+  const detalleImagen = document.getElementById('detalleImagen');
+  const cantidadInput = document.getElementById('cantidadInput');
+
+  let cantidad = 1;
+
+  function mostrarDetalle(elemento, nombreProducto) {
+    const producto = productos[nombreProducto];
+    if (!producto) return;
+
+    detalleNombre.textContent = nombreProducto;
+    detalleDescripcion.textContent = producto.descripcion;
+    detallePrecio.textContent = producto.precio;
+    detalleImagen.src = producto.imagen;
+    detalleImagen.alt = nombreProducto;
+    cantidad = 1;
+    cantidadInput.value = cantidad;
+
+    // Mostrar detalle y desplazar al producto
+    detalle.style.display = 'block';
+
+    // Opcional: Scroll suave hacia el detalle
+    detalle.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function cambiarCantidad(valor) {
+    cantidad += valor;
+    if (cantidad < 1) cantidad = 1;
+    cantidadInput.value = cantidad;
+  }
+
+  function agregarCarrito() {
+    alert(`Has agregado ${cantidad} producto(s) al carrito. (Versión beta)`);
+  }
+</script>
+
+</body>
+</html>
