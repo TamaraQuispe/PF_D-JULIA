@@ -14,7 +14,7 @@
     <aside class="sidebar">
         <div class="logo-section">
             <img class="logo" src="../Loggin/logo.png" alt="DJULIA">
-            
+
         </div>
         <nav>
             <ul>
@@ -58,23 +58,25 @@
                 </div>
         </header>
         <section class="product-add-container">
-            <form class="product-add-form">
+            <!-- ...existing code... -->
+            <form class="product-add-form" id="productForm" enctype="multipart/form-data">
                 <div class="form-main">
                     <label>
                         <span>Información del Producto <span class="required">*</span></span>
-                        <input type="text" placeholder="Nombre" required>
+                        <input type="text" name="nombre" placeholder="Nombre" required>
                     </label>
                     <label>
                         <span>Descripción</span>
-                        <textarea rows="3" placeholder="p.ej., Una breve descripción del producto aquí."></textarea>
+                        <textarea rows="3" name="descripcion"
+                            placeholder="p.ej., Una breve descripción del producto aquí."></textarea>
                     </label>
                     <label>
                         <span>Categorías <span class="add-category">+Añadir</span></span>
-                        <input type="text" placeholder="SELECCIONAR">
+                        <input type="text" name="categoria" placeholder="SELECCIONAR">
                     </label>
                     <label>
                         <span>Precio Regular</span>
-                        <input type="text" placeholder="Precio">
+                        <input type="text" name="precio" placeholder="Precio">
                     </label>
                 </div>
                 <div class="form-side">
@@ -84,10 +86,11 @@
                             <p>Deja tu imagen aquí o navega</p>
                             <small>Se permiten jpeg y png</small>
                         </div>
-                        <input type="file" accept="image/jpeg,image/png">
+                        <input type="file" name="imagen" accept="image/jpeg,image/png">
                     </div>
                 </div>
             </form>
+            <!-- ...existing code... -->
             <div class="form-actions">
                 <button type="submit" class="btn btn-black">SUBIR</button>
                 <button type="button" class="btn btn-cancel">CANCELAR</button>
@@ -104,6 +107,35 @@
         </footer>
     </main>
     <script src="agregar-producto.js"></script>
+    <script>
+    // Envío AJAX del formulario para agregar producto
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('productForm');
+        const submitBtn = document.querySelector('.btn.btn-black');
+        if (form && submitBtn) {
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch('guardar-producto.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.text())
+                .then(resp => {
+                    if (resp.trim() === "ok") {
+                        alert("Producto guardado correctamente");
+                        window.location.href = "../productos/productos.html";
+                    } else {
+                        alert("Error al guardar: " + resp);
+                    }
+                })
+                .catch(err => {
+                    alert("Error de red: " + err);
+                });
+            });
+        }
+    });
+    </script>
 </body>
 
 </html>

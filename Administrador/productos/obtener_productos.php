@@ -32,12 +32,20 @@ if (!$resultado) {
 
 // Procesar resultados
 while ($fila = $resultado->fetch_assoc()) {
+    // Ajusta los nombres de los campos según tu base de datos
+    $img = isset($fila['imagen_url']) ? $fila['imagen_url'] : (isset($fila['image']) ? $fila['image'] : '');
+    $cat = isset($fila['categoria']) ? $fila['categoria'] : (isset($fila['category']) ? $fila['category'] : '');
+    if (strpos($img, 'uploads/') === 0) {
+        $imgPath = "../DetallesProductos/" . $img;
+    } else {
+        $imgPath = "../imagenes/" . $img;
+    }
     $productos[] = [
         "id" => $fila['id'],
-        "name" => $fila['name'],
-        "price" => "S/" . number_format($fila['price'], 2),
-        "category" => $fila['category'],
-        "image" => "../imagenes/" . $fila['image']
+        "name" => $fila['nombre'],
+        "price" => "S/" . number_format($fila['precio'], 2),
+        "category" => $cat,
+        "image" => $imgPath
     ];
 }
 

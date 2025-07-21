@@ -75,3 +75,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// ...existing code...
+
+// Envío del formulario por AJAX
+const productForm = document.getElementById('productForm');
+const subirBtn = document.querySelector('.btn-black');
+if (productForm && subirBtn) {
+    subirBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const formData = new FormData(productForm);
+        fetch('guardar-producto.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.text())
+        .then(data => {
+            if (data.trim() === 'ok') {
+                alert('Producto guardado correctamente');
+                window.location.href = '../productos/productos.html';
+            } else {
+                alert('Error al guardar el producto');
+            }
+        })
+        .catch(() => alert('Error en la conexión'));
+    });
+}

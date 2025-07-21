@@ -5,6 +5,7 @@ let filteredProducts = null;
 fetch("obtener_productos.php") // ← ajusta la ruta si hace falta
   .then(response => response.json())
   .then(data => {
+    console.log("Productos recibidos:", data); // <-- Agrega este log
     products = data;
     TOTAL_PAGES = Math.ceil(products.length / PRODUCTS_PER_PAGE);
     renderProducts(1);
@@ -12,6 +13,8 @@ fetch("obtener_productos.php") // ← ajusta la ruta si hace falta
   })
   .catch(error => {
     console.error("Error cargando productos:", error);
+    const grid = document.getElementById('productsGrid');
+    if (grid) grid.innerHTML = '<p style="color:red;">Error cargando productos.</p>';
   });
 
 const PRODUCTS_PER_PAGE = 21;
@@ -27,6 +30,11 @@ function renderProducts(page = 1, list = null) {
     const start = (page - 1) * PRODUCTS_PER_PAGE;
     const end = start + PRODUCTS_PER_PAGE;
     const pageProducts = data.slice(start, end);
+
+    if (pageProducts.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;color:#888;">No hay productos para mostrar.</p>';
+        return;
+    }
 
     pageProducts.forEach((prod, idx) => {
         grid.innerHTML += `
