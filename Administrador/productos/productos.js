@@ -1,27 +1,24 @@
 // Datos de ejemplo: 63 productos
-const imageFiles = ['Panes.webp', 'Cuchareable.webp', 'Torta chocolate.webp','Postres.webp','MiniZara.webp','cuchareable de frutas.webp','Torta de frutas.webp','Mini Mil hojas.webp','Pan Zata.webp','huevo de alfajor.webp','Tortas.webp','Ecler de chocolate.webp','Panes.webp','huevo de lucuma.webp','torta de pecanas.webp','Mil hojas cremada.webp','MiniZara.webp','Huevo carrot cake.webp','Tiramisu Dc.webp','Mini pasion de mil hojas.webp','Pan Zata.webp','Panes.webp', 'Cuchareable.webp', 'Torta chocolate.webp','Postres.webp','MiniZara.webp','cuchareable de frutas.webp','Torta de frutas.webp','Mini Mil hojas.webp','Pan Zata.webp','huevo de alfajor.webp','Tortas.webp','Ecler de chocolate.webp','Panes.webp','huevo de lucuma.webp','torta de pecanas.webp','Mil hojas cremada.webp','MiniZara.webp','Huevo carrot cake.webp','Tiramisu Dc.webp','Mini pasion de mil hojas.webp','Pan Zata.webp','Panes.webp', 'Cuchareable.webp', 'Torta chocolate.webp','Postres.webp','MiniZara.webp','cuchareable de frutas.webp','Torta de frutas.webp','Mini Mil hojas.webp','Pan Zata.webp','huevo de alfajor.webp','Tortas.webp','Ecler de chocolate.webp','Panes.webp','huevo de lucuma.webp','torta de pecanas.webp','Mil hojas cremada.webp','MiniZara.webp','Huevo carrot cake.webp','Tiramisu Dc.webp','Mini pasion de mil hojas.webp','Pan Zata.webp' ];
-let products;
+let products = [];
+let filteredProducts = null;
 
-const guardados = JSON.parse(localStorage.getItem('productosTodos'));
-if (guardados) {
-  products = guardados;
-} else {
-  products = Array.from({ length: 63 }, (_, i) => ({
-    name: `Producto ${i + 1}`,
-    category: ['PANES', 'CUCHARABLES', 'TORTAS', 'POSTRES'][i % 4],
-    price: `S/${(Math.random() * 150 + 1).toFixed(2)}`,
-    image: `../imagenes/${imageFiles[i]}`
-  }));
-
-  // Guardamos la primera vez para que ya no se use imageFiles más adelante
-  localStorage.setItem('productosTodos', JSON.stringify(products));
-}
+fetch("obtener_productos.php") // ← ajusta la ruta si hace falta
+  .then(response => response.json())
+  .then(data => {
+    products = data;
+    TOTAL_PAGES = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+    renderProducts(1);
+    renderPagination(1);
+  })
+  .catch(error => {
+    console.error("Error cargando productos:", error);
+  });
 
 const PRODUCTS_PER_PAGE = 21;
 let TOTAL_PAGES = Math.ceil(products.length / PRODUCTS_PER_PAGE);
 
 // Variables para búsqueda
-let filteredProducts = null;
+
 
 function renderProducts(page = 1, list = null) {
     const grid = document.getElementById('productsGrid');
@@ -221,9 +218,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Inicializar productos y paginación
-document.addEventListener('DOMContentLoaded', () => {
-    renderProducts(1);
-    renderPagination(1);
-    setupPagination();
-});
+
+
