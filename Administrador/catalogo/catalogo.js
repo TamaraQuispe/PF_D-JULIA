@@ -42,26 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Editar y eliminar categorías (demo)
-    document.querySelectorAll('.categories-list .fa-pen').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            alert('Editar categoría (demo)');
-        });
-    });
-    document.querySelectorAll('.categories-list .fa-trash').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            alert('Eliminar categoría (demo)');
-        });
-    });
-    const addBtn = document.querySelector('.add-btn');
-    if (addBtn) {
-        addBtn.addEventListener('click', () => {
-            alert('Añadir nueva categoría (demo)');
-        });
-    }
-
     // Redirección al hacer clic en "TODOS LOS PRODUCTOS"
     const productosBtn = document.querySelectorAll('.sidebar nav ul li')[1];
     if (productosBtn) {
@@ -162,3 +142,36 @@ document.addEventListener('DOMContentLoaded', () => {
         notifPanel.addEventListener('click', e => e.stopPropagation());
     }
 });
+
+// Función para editar categoría
+window.editarCategoria = function(categoria) {
+    // Busca el <li> correspondiente
+    const li = document.querySelector(`.categories-list [data-category="${categoria}"]`).closest('li');
+    if (!li) return;
+    // Obtiene el nombre actual
+    const labelSpan = li.querySelector('.cat-label');
+    const nombreActual = labelSpan ? labelSpan.textContent.split('(')[0].trim() : categoria;
+    // Prompt para nuevo nombre
+    const nuevoNombre = prompt('Editar nombre de la categoría:', nombreActual);
+    if (nuevoNombre && labelSpan) {
+        // Actualiza el nombre en la etiqueta
+        const countMatch = labelSpan.innerHTML.match(/\(<span.*<\/span>\)/);
+        labelSpan.innerHTML = `${nuevoNombre} ${countMatch ? countMatch[0] : ''}`;
+        // También podrías actualizar atributos/data si es necesario
+    }
+};
+
+// Función para eliminar categoría
+window.eliminarCategoria = function(categoria) {
+    if (!confirm('¿Seguro que deseas eliminar la categoría?')) return;
+    // Elimina el <li> de la lista
+    const btn = document.querySelector(`.categories-list [data-category="${categoria}"]`);
+    if (btn) {
+        const li = btn.closest('li');
+        if (li) li.remove();
+    }
+    // Opcional: podrías ocultar productos de esa categoría
+    document.querySelectorAll(`.product-card[data-category="${categoria}"]`).forEach(card => {
+        card.style.display = 'none';
+    });
+};

@@ -321,12 +321,23 @@ header {
     font-size: 16px;
     margin-left: 8px;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: color 0.2s, background 0.2s;
+    border: none;
+    background: none;
+    outline: none;
+    padding: 0;
+}
+
+.categories-list li .fa-pen:focus,
+.categories-list li .fa-trash:focus {
+    outline: 2px solid #a90064;
+    outline-offset: 2px;
 }
 
 .categories-list li .fa-pen:hover,
 .categories-list li .fa-trash:hover {
     color: #a90064;
+    background: none;
 }
 
 .add-category {
