@@ -1,0 +1,5 @@
+Array
+(
+    [usuario] => admin@pasteleria.com
+    [contrasena] => 12345
+)
